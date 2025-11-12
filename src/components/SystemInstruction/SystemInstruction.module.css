@@ -1,0 +1,101 @@
+.SystemInstruction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ToggleButton {
+  padding: 6px 10px;
+  font-size: 12px;
+  /* border: 1px solid light-dark(#d3d3d3, #3f3f3f); */
+  background: light-dark(#ffffff, #212121);
+  color: light-dark(#212121, #ffffff);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 79px;
+}
+
+.Panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: min(720px, 90vw);
+  background: light-dark(#ffffff, #212121);
+  color: light-dark(#212121, #ffffff);
+  border: 1px solid light-dark(#d3d3d3, #3f3f3f);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  padding: 16px;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.Overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: rgba(0,0,0,0.5);
+}
+
+.TextArea {
+  width: 100%;
+  min-height: 160px;
+  resize: vertical;
+  padding: 10px;
+  margin: 8px 0 12px;
+  background: none;
+  color: inherit;
+  border: 1px solid light-dark(#d3d3d3, #3f3f3f);
+  border-radius: 8px;
+}
+
+.Actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.Button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid light-dark(#d3d3d3, #3f3f3f);
+  background: light-dark(#f3f3f3, #303030);
+  color: light-dark(#212121, #ffffff);
+  cursor: pointer;
+}
+
+.Button[data-variant="primary"] {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+@media screen and (max-width: 600px) {
+  .ToggleButton {
+    margin-left: 0;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .Panel {
+    width: 94vw;
+    max-height: 88vh;
+    padding: 12px;
+  }
+
+  .TextArea {
+    min-height: 120px;
+    font-size: 14px;
+  }
+
+  .Actions {
+    justify-content: stretch;
+    flex-direction: column;
+  }
+
+  .Button {
+    width: 100%;
+  }
+}

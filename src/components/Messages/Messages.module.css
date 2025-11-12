@@ -1,0 +1,120 @@
+.Messages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.Group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Group:nth-last-of-type(2) {
+  /* 8px - gap between groups */
+  min-height: calc(100% - 8px);
+}
+
+.Message {
+  width: 90%;
+  padding: 0 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  &[data-role="system"] {
+    background: light-dark(#fff4f4, #6d3030);
+    border-color: light-dark(#ffd6d6, #5a2626);
+  }
+
+  &[data-role="user"] {
+    align-self: flex-end;
+    background: light-dark(#ffffff, #1f1f1f);
+    border-color: light-dark(#e5e5e5, #3a3a3a);
+  }
+
+  &[data-role="assistant"] {
+    align-self: flex-start;
+    background: light-dark(#ffffff, #121212);
+    border-color: light-dark(#e5e5e5, #2a2a2a);
+  }
+}
+
+.Image {
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .Message {
+    font-size: 13px;
+    width: 95%;
+  }
+}
+
+.CopyButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid light-dark(#e5e5e5, #2a2a2a);
+  background: light-dark(#ffffffcc, #1c1c1ccc);
+  color: inherit;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 120ms ease, transform 120ms ease, background 120ms ease;
+  backdrop-filter: blur(4px);
+}
+
+.CopyIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.Message:hover .CopyButton {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.CopyButton[data-copied="true"] {
+  background: light-dark(#e7f8ee, #11331f);
+  border-color: light-dark(#c2ebd6, #0f2a1a);
+}
+
+@media screen and (max-width: 480px) {
+  .Messages {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .Message {
+    padding: 0 12px;
+    font-size: 12.5px;
+    width: 96%;
+  }
+
+  .CopyButton {
+    height: 32px;
+    padding: 0 10px;
+    opacity: 1; /* always visible on touch devices */
+    transform: none;
+  }
+
+  .CopyIcon {
+    width: 18px;
+    height: 18px;
+  }
+}

@@ -1,0 +1,61 @@
+.Theme {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 3px;
+}
+
+.Switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.Input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.Track {
+  --w: 38px;
+  --h: 20px;
+  width: var(--w);
+  height: var(--h);
+  background: linear-gradient(145deg, #2b2b2b, #1a1a1a);
+  border-radius: var(--h);
+  display: block;
+  position: relative;
+  transition: background 0.25s;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+}
+
+.Track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #dcdcdc);
+  border-radius: 50%;
+  transition: transform 0.25s ease, background 0.25s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.Track[data-checked="false"] {
+  background: linear-gradient(145deg, #ffd36a, #ffb347);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+.Track[data-checked="false"]::after {
+  transform: translateX(18px);
+  background: radial-gradient(circle at 30% 30%, #fffdf2, #ffe9a8);
+}
+
+/* Removed .ToggleText styles (now unused) */

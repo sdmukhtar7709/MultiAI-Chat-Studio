@@ -1,0 +1,142 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px; /* tighten space between header and content */
+  height: 100vh;
+  padding: 12px; /* slightly reduced overall padding */
+}
+
+.Header {
+  padding-left: 11px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px; /* reduce horizontal gap so header is more compact */
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.Brand {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 180px;
+}
+
+.Content {
+  display: flex;
+  flex-grow: 1;
+  gap: 16px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.Main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 16px;
+}
+
+.Logo {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.Title {
+  margin: 0;
+}
+
+.Configuration {
+  display: flex;
+  flex-wrap: nowrap; /* keep SystemInstruction, Assistant, Theme on the same row */
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  opacity: 0.9;
+  flex: 1;
+}
+
+.TopRight {
+  margin-left: auto; /* Push logout/current user to the far right */
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.Avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#6d28d9,#4f46e5);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.UserName {
+  font-size: 13px;
+  color: #111827;
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.LogoutButton {
+  background: #4f46e5; /* primary */
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #ffffff; /* make logout text white */
+  transition: all 120ms ease-in-out;
+}
+
+.LogoutButton:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(79,70,229,0.12);
+  opacity: 0.98;
+}
+
+@media screen and (max-width: 768px) {
+  .Header {
+    padding-left: 0;
+    gap: 12px;
+  }
+
+  .App {
+    padding: 8px;
+  }
+
+  .Brand {
+    min-width: 0;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .Content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .Main {
+    gap: 12px;
+  }
+
+  /* Make first control in configuration (SystemInstruction) take full row below brand */
+  .Configuration {
+    width: 100%;
+  }
+  .Configuration > :first-child {
+    flex-basis: 100%;
+    order: -1; /* ensure it starts the row */
+  }
+}

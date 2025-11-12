@@ -1,0 +1,7 @@
+.Chat {
+  flex-grow: 1;
+  width: 100%;
+  background: light-dark(#ffffff, #212121);
+  border-radius: 16px;
+  overflow-y: auto;
+}

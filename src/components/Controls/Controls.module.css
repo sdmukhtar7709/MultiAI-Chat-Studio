@@ -1,0 +1,164 @@
+.Controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  position: relative;
+}
+
+.TextAreaContainer {
+  flex-grow: 1;
+  padding: 8px 16px;
+  line-height: 0;
+  border-radius: 16px;
+  background: light-dark(#ffffff, #212121);
+}
+
+.TextArea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  background: light-dark(#ffffff, #212121);
+}
+
+.Button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  background: light-dark(#0d0d0d, #ececec);
+  cursor: pointer;
+}
+
+.Button svg {
+  fill: light-dark(#f3f3f3, #171717);
+}
+
+.TextArea:disabled,
+.Button:disabled {
+  opacity: 0.35;
+}
+
+.Thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.MicToast {
+  position: fixed;
+  left: 50%;
+  bottom: 92px; /* hover above controls bar */
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: light-dark(#0d0d0d, #ececec);
+  color: light-dark(#f3f3f3, #171717);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  font-size: 14px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.MicToastDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d23;
+  box-shadow: 0 0 0 4px rgba(210, 35, 35, 0.15);
+}
+
+.MoreMenu {
+  position: absolute;
+  bottom: 52px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  background: light-dark(#ffffff, #212121);
+  color: light-dark(#212121, #ffffff);
+  border: 1px solid light-dark(#d3d3d3, #3f3f3f);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.MoreOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: transparent; /* just captures clicks */
+}
+
+.MoreItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid light-dark(#e5e5e5, #2a2a2a);
+  background: light-dark(#fafafa, #1c1c1c);
+  color: inherit;
+  cursor: pointer;
+}
+
+.MobileOnly {
+  display: none;
+}
+
+.HiddenOnMobile { /* visible by default, hidden in mobile media query */
+  pointer-events: auto; /* non-empty to satisfy linter */
+}
+
+@media screen and (max-width: 600px) {
+  .Controls {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .TextAreaContainer {
+    flex-basis: 100%;
+    order: 1; /* ensure textarea spans a full row */
+  }
+
+  .Button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .Thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+
+  .MicToast {
+    bottom: 128px; /* a bit higher to clear wrapped controls */
+  }
+
+  .HiddenOnMobile {
+    display: none !important;
+  }
+
+  .MobileOnly {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .SendButton {
+    margin-left: auto; /* push send to the far right */
+  }
+}

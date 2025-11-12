@@ -1,0 +1,140 @@
+:root{
+  
+  
+  --muted:#6b7280;
+  --primary:#4f46e5;
+  --primary-contrast:#ffffff;
+  --border:#e6e9ef;
+  --radius:12px;
+}
+
+.container{
+  min-height: calc(100vh - 80px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+  background:linear-gradient(180deg,var(--bg),#ffffff);
+}
+
+.card{
+  width:100%;
+  max-width:520px;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 8px 30px rgba(15,23,42,0.08);
+  border:1px solid var(--border);
+  padding:28px;
+}
+
+
+.header{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.logo{
+  width:48px;
+  height:48px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.headerText{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start; /* keep text left-aligned relative to itself */
+}
+
+.headerText .title,
+.headerText .subtitle{
+  text-align:left;
+}
+
+.title{
+  margin:0;
+  font-size:20px;
+  
+}
+
+.subtitle{
+  margin:0;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.form{
+  margin-top:12px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.formGroup{
+  display:flex;
+  flex-direction:column;
+}
+
+.label{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.input{
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  font-size:14px;
+  outline:none;
+}
+
+.input:focus{
+  box-shadow:0 0 0 4px rgba(79,70,229,0.08);
+  border-color:var(--primary);
+}
+
+.row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.primary{
+  background:var(--primary);
+  color:var(--primary-contrast);
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.linkButton{
+  background:transparent;
+  border:none;
+  color:var(--primary);
+  cursor:pointer;
+  text-decoration:underline;
+  padding:0;
+  font-weight:600;
+}
+
+.helper{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.error{
+  color:#b91c1c;
+  font-size:13px;
+}
+
+@media (max-width:520px){
+  .card{padding:18px;margin:10px}
+}

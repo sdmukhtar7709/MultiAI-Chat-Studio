@@ -1,0 +1,47 @@
+.Assistant {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Center the Assistant selector within the header row */
+  margin-left: auto;
+  margin-right: auto;
+
+
+   padding: 6px 10px;
+  
+  
+  
+}
+
+/* Make the model selector look like the System Instruction style */
+.Assistant select {
+  padding: 6px 10px;
+  font-size: 14px;
+  background: light-dark(#ffffff, #212121);
+  color: light-dark(#212121, #ffffff);
+  border: 1px solid light-dark(#d3d3d3, #3f3f3f);
+  border-radius: 8px;
+  outline: none;
+  padding: 6px 10px;
+}
+
+.Assistant select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Mobile: align left and hide the label */
+@media screen and (max-width: 768px) {
+  .Assistant {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .Assistant > span {
+    display: none;
+  }
+
+  .Assistant select {
+    max-width: 100%;
+  }
+}
