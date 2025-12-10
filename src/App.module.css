@@ -30,6 +30,7 @@
   gap: 16px;
   width: 100%;
   overflow: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
 .Main {
@@ -37,6 +38,7 @@
   flex-direction: column;
   flex-grow: 1;
   gap: 16px;
+  transition: all 0.3s ease-in-out;
 }
 
 .Logo {
@@ -89,54 +91,149 @@
 }
 
 .LogoutButton {
-  background: #4f46e5; /* primary */
+  position: relative;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
   cursor: pointer;
   font-weight: 600;
-  color: #ffffff; /* make logout text white */
-  transition: all 120ms ease-in-out;
+  font-size: 13px;
+  color: #ffffff;
+  overflow: hidden;
+  z-index: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
 }
 
-.LogoutButton:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(79,70,229,0.12);
-  opacity: 0.98;
+.LogoutButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+  z-index: 1;
+}
+
+.LogoutButton:hover::before {
+  left: 100%;
+}
+
+.LogoutButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5);
+}
+
+.LogoutButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(245, 87, 108, 0.4);
 }
 
 @media screen and (max-width: 768px) {
-  .Header {
-    padding-left: 0;
-    gap: 12px;
-  }
-
   .App {
     padding: 8px;
+    gap: 8px;
+  }
+
+  .Header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px 10px 54px;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
 
   .Brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-40%);
     min-width: 0;
-    width: 100%;
-    margin: 0 auto;
+    gap: 10px;
     justify-content: center;
+  }
+
+  /* Hide theme toggle on mobile - it's in the sidebar */
+  .Brand > :last-child {
+    display: none;
+  }
+
+  .Title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .Logo {
+    width: 1.7em;
+    height: 1.7em;
   }
 
   .Content {
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
   }
 
   .Main {
-    gap: 12px;
+    gap: 8px;
   }
 
-  /* Make first control in configuration (SystemInstruction) take full row below brand */
   .Configuration {
-    width: 100%;
+    margin-left: auto;
+    gap: 8px;
+    flex-wrap: nowrap;
+    flex: 0;
   }
+
+  /* Hide system instruction on mobile - it's in the sidebar */
   .Configuration > :first-child {
-    flex-basis: 100%;
-    order: -1; /* ensure it starts the row */
+    display: none;
+  }
+
+  /* Hide logout on mobile - it's in the sidebar */
+  .TopRight {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .App {
+    padding: 6px;
+  }
+
+  .Header {
+    padding: 8px 10px 8px 50px;
+    gap: 8px;
+  }
+
+  .Brand {
+    gap: 8px;
+    transform: translateX(-35%);
+  }
+
+  .Title {
+    font-size: 1.25rem;
+  }
+
+  .Logo {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .Configuration {
+    gap: 6px;
   }
 }

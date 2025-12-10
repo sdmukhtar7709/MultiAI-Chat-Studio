@@ -1,40 +1,66 @@
 .Assistant {
   display: flex;
   align-items: center;
-  gap: 8px;
-  /* Center the Assistant selector within the header row */
+  gap: 10px;
   margin-left: auto;
   margin-right: auto;
-
-
-   padding: 6px 10px;
-  
-  
-  
+  padding: 6px 12px;
 }
 
-/* Make the model selector look like the System Instruction style */
-.Assistant select {
-  padding: 6px 10px;
+.Assistant > span {
   font-size: 14px;
-  background: light-dark(#ffffff, #212121);
-  color: light-dark(#212121, #ffffff);
-  border: 1px solid light-dark(#d3d3d3, #3f3f3f);
-  border-radius: 8px;
+  font-weight: 500;
+  color: light-dark(#555, #aaa);
+}
+
+/* Styled select dropdown */
+.Assistant select {
+  padding: 8px 32px 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  background: light-dark(#ffffff, #1e1e1e);
+  color: light-dark(#333, #e0e0e0);
+  border: 1.5px solid light-dark(#ddd, #444);
+  border-radius: 10px;
   outline: none;
-  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  min-width: 160px;
+}
+
+.Assistant select:hover {
+  border-color: light-dark(#bbb, #666);
+  background-color: light-dark(#fafafa, #252525);
 }
 
 .Assistant select:focus {
   border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
-/* Mobile: align left and hide the label */
+.Assistant select optgroup {
+  font-weight: 600;
+  color: light-dark(#333, #fff);
+  background: light-dark(#f5f5f5, #2a2a2a);
+}
+
+.Assistant select option {
+  padding: 8px;
+  font-weight: 400;
+  background: light-dark(#fff, #1e1e1e);
+  color: light-dark(#333, #e0e0e0);
+}
+
+/* Mobile: compact dropdown */
 @media screen and (max-width: 768px) {
   .Assistant {
-    margin-left: 0;
-    margin-right: auto;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 0;
   }
 
   .Assistant > span {
@@ -42,6 +68,34 @@
   }
 
   .Assistant select {
-    max-width: 100%;
+    padding: 8px 28px 8px 10px;
+    font-size: 13px;
+    min-width: auto;
+    max-width: 130px;
+    border-radius: 10px;
+    background-color: light-dark(#f5f5f5, #2a2a2a);
+    border: 1px solid light-dark(#e0e0e0, #3a3a3a);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .Assistant select:focus {
+    border-color: light-dark(#c0c0c0, #555);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .Assistant select:active {
+    transform: scale(0.98);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Assistant select {
+    padding: 7px 24px 7px 8px;
+    font-size: 12px;
+    max-width: 110px;
+    border-radius: 8px;
   }
 }

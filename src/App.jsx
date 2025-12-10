@@ -27,10 +27,11 @@ function Home() {
     localStorage.getItem("activeChatId") || undefined
   );
 
-  // ✅ Global system instruction for chatbot personality (persisted)
-  const [systemPrompt, setSystemPrompt] = useState(() =>
-    localStorage.getItem("systemInstruction") ?? "your name is mukhtar"
-  );
+  // Global system instruction (persisted) - start with a fixed default
+  const DEFAULT_SYSTEM_PROMPT =
+    "You are ChatMind-AI, created by ChatMind Corporation under Sameer. Provide clear, accurate, polite, and easy-to-understand answers. Use step-by-step reasoning for complex questions and prioritize user satisfaction.";
+
+  const [systemPrompt, setSystemPrompt] = useState(DEFAULT_SYSTEM_PROMPT);
 
   const activeChatMessages = useMemo(
     () => chats.find(({ id }) => id === activeChatId)?.messages ?? [],
@@ -38,24 +39,20 @@ function Home() {
   );
 
   useEffect(() => {
-    // Initialize a chat if none exists
+    // Initialize chat on mount
     if (!chats.length) {
       handleNewChatCreate();
     } else if (!activeChatId && chats.length) {
       setActiveChatId(chats[0].id);
     }
-    // We intentionally only want this to run on mount to initialize the chat
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Persist chats and active chat id
+  // Persist chats
   useEffect(() => {
     try {
       localStorage.setItem("chats", JSON.stringify(chats));
     } catch (e) {
-      // If persisting fails (e.g., storage quota), log a warning but continue
-      // so the app remains usable.
-  console.warn("Failed to persist chats", e);
+      console.warn("Failed to persist chats", e);
     }
   }, [chats]);
 
@@ -67,11 +64,12 @@ function Home() {
     localStorage.setItem("systemInstruction", systemPrompt);
   }, [systemPrompt]);
 
-  // Stable callback so child effects can depend on it without causing loops
+  // Stable callback for assistant changes
   const handleAssistantChangeMemo = useCallback((newAssistant) => {
     setAssistant(newAssistant);
   }, []);
 
+  // Update chat messages and auto-generate title from first 7 words
   function handleChatMessagesUpdate(id, messages) {
     const title = messages[0]?.content.split(" ").slice(0, 7).join(" ");
 
@@ -84,13 +82,16 @@ function Home() {
     );
   }
 
+  // Create a new empty chat and make it active
   function handleNewChatCreate() {
     const id = uuidv4();
+    const createdAt = new Date().toISOString();
 
     setActiveChatId(id);
-    setChats((prevChats) => [...prevChats, { id, messages: [] }]);
+    setChats((prevChats) => [...prevChats, { id, messages: [], createdAt }]);
   }
 
+  // Switch to chat and remove any empty chats
   function handleActiveChatIdChange(id) {
     setActiveChatId(id);
     setChats((prevChats) =>
@@ -98,6 +99,7 @@ function Home() {
     );
   }
 
+  // Delete a chat and switch to another if needed
   function handleChatDelete(id) {
     setChats((prev) => prev.filter((c) => c.id !== id));
     setActiveChatId((prevActive) => {
@@ -112,16 +114,19 @@ function Home() {
   return (
     <div className={styles.App}>
       <header className={styles.Header}>
-        <div className={styles.Brand}>
+        <div
+          className={styles.Brand}
+          onClick={() => window.location.reload()}
+          style={{ cursor: 'pointer' }}
+          title="Refresh page"
+        >
           <img className={styles.Logo} src="/chat-bot.png" />
           <h2 className={styles.Title}>ChatMinds</h2>
+          <Theme />
         </div>
         <div className={styles.Configuration}>
           <SystemInstruction value={systemPrompt} onChange={setSystemPrompt} />
           <Assistant onAssistantChange={handleAssistantChangeMemo} />
-          <div className={styles.ThemeRight}>
-            <Theme />
-          </div>
         </div>
         <div className={styles.TopRight}>
           <button
@@ -145,6 +150,12 @@ function Home() {
           onActiveChatIdChange={handleActiveChatIdChange}
           onNewChatCreate={handleNewChatCreate}
           onChatDelete={handleChatDelete}
+          onLogout={() => {
+            logout();
+            navigate("/Login");
+          }}
+          systemPrompt={systemPrompt}
+          onSystemPromptChange={setSystemPrompt}
         />
 
         <main className={styles.Main}>
@@ -152,7 +163,7 @@ function Home() {
             <Chat
               key={chat.id}
               assistant={assistant}
-              systemPrompt={systemPrompt} // ✅ Passed to Chat component
+              systemPrompt={systemPrompt}
               isActive={chat.id === activeChatId}
               chatId={chat.id}
               chatMessages={chat.messages}

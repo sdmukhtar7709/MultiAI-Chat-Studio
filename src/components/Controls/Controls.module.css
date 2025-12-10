@@ -125,27 +125,59 @@
 @media screen and (max-width: 600px) {
   .Controls {
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
+    padding: 8px;
+    background: light-dark(#f8f8f8, #1a1a1a);
+    border-radius: 16px;
+    border: 1px solid light-dark(#e5e5e5, #333333);
   }
 
   .TextAreaContainer {
     flex-basis: 100%;
-    order: 1; /* ensure textarea spans a full row */
+    order: 1;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid light-dark(#e0e0e0, #404040);
+  }
+
+  .TextArea {
+    font-size: 15px;
   }
 
   .Button {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .Button:active {
+    transform: scale(0.95);
   }
 
   .Thumb {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
   }
 
   .MicToast {
-    bottom: 128px; /* a bit higher to clear wrapped controls */
+    bottom: 140px;
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .MoreMenu {
+    bottom: 56px;
+    left: 4px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .MoreItem {
+    height: 42px;
+    padding: 0 14px;
+    font-size: 14px;
   }
 
   .HiddenOnMobile {
@@ -159,6 +191,11 @@
   }
 
   .SendButton {
-    margin-left: auto; /* push send to the far right */
+    margin-left: auto;
+    background: light-dark(#333333, #e0e0e0);
+  }
+
+  .SendButton svg {
+    fill: light-dark(#ffffff, #1a1a1a);
   }
 }

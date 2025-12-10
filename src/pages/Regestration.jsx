@@ -23,14 +23,14 @@ export default function Regestration() {
 
   return (
     <div className={authStyles.container}>
-      <div className={authStyles.card}>
-        <div className={authStyles.header}>
-          <img src="/chat-bot.png" alt="logo" className={authStyles.logo} />
-          <div className={authStyles.headerText}>
-            <h3 className={authStyles.title}>Create your account</h3>
-            <p className={authStyles.subtitle}>Start chatting with ChatMinds</p>
-          </div>
-        </div>
+      <span className={authStyles.glow} />
+      <span className={authStyles.glow} />
+
+      <section className={authStyles.card}>
+        <h2 className={authStyles.title}>Launch your ChatMinds workspace</h2>
+        <p className={authStyles.subtitle}>
+          Invite your favorite models, save reusable instructions, and keep teammates in sync.
+        </p>
 
         {error && <div className={authStyles.error}>{error}</div>}
 
@@ -39,61 +39,72 @@ export default function Regestration() {
             <label className={authStyles.label} htmlFor="name">
               Full name
             </label>
-            <input
-              id="name"
-              className={authStyles.input}
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              autoComplete="name"
-            />
+            <div className={authStyles.inputWrapper}>
+              <span className={authStyles.inputIcon}>👤</span>
+              <input
+                id="name"
+                className={authStyles.input}
+                type="text"
+                placeholder="muktar sayyad"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                autoComplete="name"
+              />
+            </div>
           </div>
 
           <div className={authStyles.formGroup}>
             <label className={authStyles.label} htmlFor="email">
               Email
             </label>
-            <input
-              id="email"
-              className={authStyles.input}
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
+            <div className={authStyles.inputWrapper}>
+              <span className={authStyles.inputIcon}>@</span>
+              <input
+                id="email"
+                className={authStyles.input}
+                type="email"
+                placeholder="you@space.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
           </div>
 
           <div className={authStyles.formGroup}>
             <label className={authStyles.label} htmlFor="password">
               Password
             </label>
-            <input
-              id="password"
-              className={authStyles.input}
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="new-password"
-            />
+            <div className={authStyles.inputWrapper}>
+              <span className={authStyles.inputIcon}>🔒</span>
+              <input
+                id="password"
+                className={authStyles.input}
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+              />
+            </div>
           </div>
 
-          <div className={authStyles.row}>
-            <button className={authStyles.primary} type="submit">
-              Create account
-            </button>
-            <Link to="/Login" className={authStyles.linkButton}>
-              Already have an account?
-            </Link>
-          </div>
-
-          <p className={authStyles.helper}>
-            
-          </p>
+          <button className={authStyles.primary} type="submit">
+            Create account
+          </button>
         </form>
-      </div>
+
+        <p className={authStyles.secondaryLink}>
+          Already have an account? <Link to="/Login">Sign in</Link>
+        </p>
+
+        <p className={authStyles.helper}>
+          Onboarding takes less than a minute. We only store your sample data locally.
+        </p>
+      </section>
     </div>
   );
 }

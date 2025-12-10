@@ -5,74 +5,123 @@ const googleai = new GoogleGenAI({
 });
 
 export class Assistant {
-  #chat;
+  #modelName;
+  #history = [];
   #systemInstruction = "";
   name = "googleai";
 
-  constructor(model = "gemini-2.0-flash") {
-    this.#chat = googleai.chats.create({ model });
+  constructor(model = "gemini-2.5-flash") {
+    this.#modelName = model;
   }
+
   createChat(history, systemInstruction = "") {
     this.#systemInstruction = systemInstruction || "";
-    this.#chat = googleai.chats.create({
-      model: this.#chat.model,
-      history: history
-        .filter(({ role }) => role !== "system")
-        .map(({ content, role }) => ({
-          parts: [{ text: content }],
-          role: role === "assistant" ? "model" : role,
-        })),
-    });
+    this.#history = history
+      .filter(({ role }) => role !== "system")
+      .map(({ content, role }) => ({
+        role: role === "assistant" ? "model" : "user",
+        parts: [{ text: content }],
+      }));
   }
 
   async chat(content) {
+    const userMessage = this.#composeMessage(content);
+    const contents = this.#buildContents(userMessage);
+
     try {
-      const result = await this.#chat.sendMessage({
-        message: this.#composeMessage(content),
+      const result = await googleai.models.generateContent({
+        model: this.#modelName,
+        contents,
       });
-      return result.text;
+
+      const text = this.#extractText(result);
+      this.#updateHistory(userMessage, text);
+      return text;
     } catch (error) {
       throw this.#parseError(error);
     }
   }
 
   async *chatStream(content) {
+    const userMessage = this.#composeMessage(content);
+    const contents = this.#buildContents(userMessage);
+    let combinedText = "";
+
     try {
-      const result = await this.#chat.sendMessageStream({
-        message: this.#composeMessage(content),
+      const result = await googleai.models.generateContentStream({
+        model: this.#modelName,
+        contents,
       });
 
-      for await (const chunk of result) {
-        yield chunk.text;
+      for await (const chunk of result.stream) {
+        const text = this.#extractText(chunk);
+        combinedText += text;
+        if (text) {
+          yield text;
+        }
       }
+
+      this.#updateHistory(userMessage, combinedText);
     } catch (error) {
       throw this.#parseError(error);
     }
   }
 
-  #composeContent(content) {
-    return this.#systemInstruction
-      ? `${this.#systemInstruction}\n\n${content}`
-      : content;
+  #buildContents(userMessage) {
+    const contents = [...this.#history, userMessage];
+    if (this.#systemInstruction) {
+      contents.unshift({
+        role: "system",
+        parts: [{ text: this.#systemInstruction }],
+      });
+    }
+    return contents;
   }
 
   #composeMessage(content) {
     // If an object with image data is provided, construct multimodal parts
     if (content && typeof content === "object" && content.imageDataUrl) {
       const parts = [];
-      if (this.#systemInstruction) {
-        parts.push({ text: this.#systemInstruction });
-      }
       if (content.text) {
         parts.push({ text: content.text });
       }
-  const { mimeType, base64 } = this.#parseDataUrl(content.imageDataUrl);
-  parts.push({ inlineData: { mimeType, data: base64 } });
-  return { role: "user", parts };
+      const { mimeType, base64 } = this.#parseDataUrl(content.imageDataUrl);
+      parts.push({ inlineData: { mimeType, data: base64 } });
+      return { role: "user", parts };
     }
 
-    // Fallback to plain text (with system prefix) for normal messages
-    return this.#composeContent(content ?? "");
+    // Fallback to plain text for normal messages
+    return {
+      role: "user",
+      parts: [{ text: content ?? "" }],
+    };
+  }
+
+  #extractText(result) {
+    const direct = result?.text;
+    const textProp = typeof direct === "function" ? direct() : direct;
+
+    const responseText =
+      typeof result?.response?.text === "function"
+        ? result.response.text()
+        : result?.response?.text;
+
+    const candidateText = result?.response?.candidates
+      ?.map((candidate) =>
+        candidate?.content?.parts
+          ?.map((part) => part?.text || "")
+          .join("")
+          .trim()
+      )
+      .filter(Boolean)
+      .join("\n");
+
+    return responseText || textProp || candidateText || "";
+  }
+
+  #updateHistory(userMessage, assistantText) {
+    this.#history.push(userMessage);
+    this.#history.push({ role: "model", parts: [{ text: assistantText }] });
   }
 
   #parseDataUrl(dataUrl) {

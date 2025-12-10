@@ -7,7 +7,7 @@ import { exportChatToPdf } from "../../utils/exportPdf";
 
 export function Chat({
   assistant,
-  systemPrompt,        // ✅ Now received from App.jsx
+  systemPrompt,
   isActive = false,
   chatId,
   chatMessages,
@@ -32,6 +32,7 @@ export function Chat({
     onChatMessagesUpdate(chatId, messages);
   }, [messages]);
 
+  // Appends new content to the last message (used for streaming AI responses)
   function updateLastMessageContent(content) {
     setMessages((prevMessages) =>
       prevMessages.map((message, index) =>
@@ -42,10 +43,12 @@ export function Chat({
     );
   }
 
+  // Add a new message to the chat
   function addMessage(message) {
     setMessages((prevMessages) => [...prevMessages, message]);
   }
 
+  // Send user message to AI and stream the response
   async function handleContentSend(content) {
     addMessage({ content, role: "user" });
     setIsLoading(true);
@@ -59,6 +62,7 @@ export function Chat({
         payload = { text: content, imageDataUrl: pendingImage.dataUrl };
       }
 
+      // Build conversation history: system prompt + image context + text messages
       const history = [
         ...(systemPrompt ? [{ role: "system", content: systemPrompt }] : []),
         ...(lastImageSummary && !pendingImage
@@ -68,6 +72,7 @@ export function Chat({
       ];
       const result = await assistant.chatStream(payload, history);
 
+      // Stream AI response chunk by chunk for real-time display
       let isFirstChunk = false;
       let assistantReply = "";
       for await (const chunk of result) {
@@ -77,7 +82,6 @@ export function Chat({
           setIsLoading(false);
           setIsStreaming(true);
         }
-
         assistantReply += chunk;
         updateLastMessageContent(chunk);
       }
@@ -109,6 +113,7 @@ export function Chat({
     }
   }
 
+  // Handle image upload: convert to base64 for AI and create preview URL
   async function handleImageSend(file) {
     // Read the image as a data URL
     const dataUrl = await new Promise((resolve, reject) => {
@@ -122,6 +127,7 @@ export function Chat({
     setPendingImage({ dataUrl, objectUrl, name: file.name });
   }
 
+  // Export current chat to PDF file
   function handleExportPdf() {
     try {
       const filename = `Chat Export ${new Date().toLocaleDateString()} ${new Date()
@@ -134,6 +140,10 @@ export function Chat({
   }
 
   if (!isActive) return null;
+
+  // Get last assistant message for speaker feature
+  const lastAssistantMessage = [...messages].reverse().find(m => m.role === "assistant");
+  const lastAssistantText = lastAssistantMessage?.content || "";
 
   return (
     <>
@@ -148,7 +158,7 @@ export function Chat({
         onSend={handleContentSend}
         onSendImage={handleImageSend}
         pendingImageUrl={pendingImage?.objectUrl}
-        lastAssistantText={(messages.slice().reverse().find((m) => m.role === "assistant" && typeof m.content === "string")?.content) || ""}
+        lastAssistantText={lastAssistantText}
         onExportChat={handleExportPdf}
       />
     </>

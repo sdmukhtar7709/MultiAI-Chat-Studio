@@ -45,6 +45,11 @@ export function Messages({ messages }) {
                     src={message.imageUrl}
                     alt={message.alt || "uploaded image"}
                   />
+                ) : message.type === "pdf" ? (
+                  <div className={styles.PdfMessage}>
+                    <PdfIcon />
+                    <span>Uploaded: {message.pdfName}</span>
+                  </div>
                 ) : (
                   <>
                     <Markdown>{message.content}</Markdown>
@@ -66,6 +71,14 @@ export function Messages({ messages }) {
 
       <div ref={messagesEndRef} />
     </div>
+  );
+}
+
+function PdfIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" fill="#e53935">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 9v4h-2v-4H8l4-4 4 4h-3zm1-6.5L18.5 9H14V4.5z" />
+    </svg>
   );
 }
 

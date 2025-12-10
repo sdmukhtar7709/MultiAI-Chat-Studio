@@ -1,15 +1,28 @@
 import { jsPDF } from "jspdf";
 
+/**
+ * Remove markdown formatting from text for clean PDF output
+ * Converts bold to uppercase, removes headers, code blocks, etc.
+ * @param {string} text - Raw markdown text
+ * @returns {string} Cleaned plain text
+ */
 function cleanMarkdown(text = "") {
   return text
-    .replace(/\*\*(.*?)\*\*/g, (_, p1) => p1.toUpperCase()) // bold
-    .replace(/\*(.*?)\*/g, (_, p1) => p1)
-    .replace(/#+\s?(.*)/g, "$1")
-    .replace(/`(.*?)`/g, "$1")
-    .replace(/\n{3,}/g, "\n\n")
+    .replace(/\*\*(.*?)\*\*/g, (_, p1) => p1.toUpperCase()) // bold → UPPERCASE
+    .replace(/\*(.*?)\*/g, (_, p1) => p1)                   // italic → normal
+    .replace(/#+\s?(.*)/g, "$1")                            // headers → text
+    .replace(/`(.*?)`/g, "$1")                              // inline code → text
+    .replace(/\n{3,}/g, "\n\n")                             // multiple newlines → double
     .trim();
 }
 
+/**
+ * Export chat messages to a formatted PDF file
+ * Creates a professional PDF with headers, footers, and styled messages
+ * @param {Array} messages - Array of message objects { role, content }
+ * @param {string} filename - Name for the downloaded PDF file
+ * @param {string} title - Optional title shown in PDF header
+ */
 export function exportChatToPdf(
   messages = [],
   filename = "Chat_Export.pdf",

@@ -22,63 +22,79 @@ export default function Login() {
 
   return (
     <div className={authStyles.container}>
-      <div className={authStyles.card}>
-        <div className={authStyles.header}>
-          <img src="/chat-bot.png" alt="logo" className={authStyles.logo} />
-          <div className={authStyles.headerText}>
-            <h3 className={authStyles.title}>Welcome back</h3>
-            <p className={authStyles.subtitle}>Sign in to continue to ChatMinds</p>
-          </div>
-        </div>
+      <span className={authStyles.glow} />
+      <span className={authStyles.glow} />
+
+      <section className={authStyles.card}>
+        <h2 className={authStyles.title}>Sign in to Your Account</h2>
+        <p className={authStyles.subtitle}>
+          Enter your login details to access your dashboard.
+        </p>
 
         {error && <div className={authStyles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={authStyles.form}>
           <div className={authStyles.formGroup}>
             <label className={authStyles.label} htmlFor="email">
-              Email
+              Email Address
             </label>
-            <input
-              id="email"
-              className={authStyles.input}
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
+            <div className={authStyles.inputWrapper}>
+              <span className={authStyles.inputIcon}>@</span>
+              <input
+                id="email"
+                className={authStyles.input}
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
           </div>
 
           <div className={authStyles.formGroup}>
             <label className={authStyles.label} htmlFor="password">
               Password
             </label>
-            <input
-              id="password"
-              className={authStyles.input}
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
+            <div className={authStyles.inputWrapper}>
+              <span className={authStyles.inputIcon}>🔒</span>
+              <input
+                id="password"
+                className={authStyles.input}
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </div>
           </div>
 
-          <div className={authStyles.row}>
-            <button className={authStyles.primary} type="submit">
-              Sign in
+          <div className={authStyles.actions}>
+            <label className={authStyles.remember}>
+              <input type="checkbox" defaultChecked />
+              Remember me
+            </label>
+            <button type="button" className={authStyles.ghostButton}>
+              Forgot password?
             </button>
-            <Link to="/Regestration" className={authStyles.linkButton}>
-              Create an account
-            </Link>
           </div>
 
-          <p className={authStyles.helper}>
-            By signing in you agree to our terms. This demo stores credentials
-            locally for testing only.
-          </p>
+          <button className={authStyles.primary} type="submit">
+            Login
+          </button>
         </form>
-      </div>
+
+        <p className={authStyles.secondaryLink}>
+          Don&apos;t have an account? <Link to="/Regestration">Register</Link>
+        </p>
+
+        <p className={authStyles.helper}>
+          Demo mode: Your credentials are saved locally and can be reset anytime.
+        </p>
+      </section>
     </div>
   );
 }

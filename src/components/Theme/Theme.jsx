@@ -28,7 +28,6 @@ export function Theme() {
 
   return (
     <div className={styles.Theme}>
-      <span>Theme:</span>
       <label className={styles.Switch} aria-label="Toggle light theme">
         <input
           className={styles.Input}

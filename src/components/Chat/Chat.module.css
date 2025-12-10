@@ -5,3 +5,15 @@
   border-radius: 16px;
   overflow-y: auto;
 }
+
+@media screen and (max-width: 768px) {
+  .Chat {
+    border-radius: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Chat {
+    border-radius: 10px;
+  }
+}
