@@ -179,7 +179,7 @@ function Home() {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      <Route path="/" element={<Home />} />
       <Route path="/Login" element={<Login />} />
       <Route path="/Regestration" element={<Regestration />} />
     </Routes>

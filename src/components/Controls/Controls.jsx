@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
+import { isAuthenticated } from "../../utils/auth";
 import styles from "./Controls.module.css";
 
 export function Controls({ isDisabled = false, onSend, onSendImage, pendingImageUrl, lastAssistantText = "", onExportChat }) {
+  const navigate = useNavigate();
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
@@ -13,10 +16,18 @@ export function Controls({ isDisabled = false, onSend, onSendImage, pendingImage
   const [moreOpen, setMoreOpen] = useState(false);
 
   useEffect(() => {
-    if (!isDisabled) {
-      textareaRef.current.focus();
+    if (!isDisabled && isAuthenticated()) {
+      textareaRef.current?.focus();
     }
   }, [isDisabled]);
+
+  function requireAuthForChatAction() {
+    if (!isAuthenticated()) {
+      navigate("/Login");
+      return true;
+    }
+    return false;
+  }
 
   // Update textarea content as user types
   function handleContentChange(event) {
@@ -25,6 +36,7 @@ export function Controls({ isDisabled = false, onSend, onSendImage, pendingImage
 
   // Send message when user clicks send button
   function handleContentSend() {
+    if (requireAuthForChatAction()) return;
     if (content.length > 0) {
       onSend(content);
       setContent("");
