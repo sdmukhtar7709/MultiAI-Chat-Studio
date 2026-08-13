@@ -23,14 +23,17 @@ export default function Regestration() {
 
   return (
     <div className={authStyles.container}>
-      <span className={authStyles.glow} />
-      <span className={authStyles.glow} />
-
       <section className={authStyles.card}>
-        <h2 className={authStyles.title}>Launch your ChatMinds workspace</h2>
-        <p className={authStyles.subtitle}>
-          Invite your favorite models, save reusable instructions, and keep teammates in sync.
-        </p>
+        <div className={authStyles.header}>
+          <div className={authStyles.brand}>
+            <img className={authStyles.logo} src="/chatmindd.png" alt="ChatMinds" />
+            <span className={authStyles.brandText}>ChatMinds</span>
+          </div>
+          <h2 className={authStyles.title}>Create your account</h2>
+          <p className={authStyles.subtitle}>
+            Set up your workspace and start chatting with your favorite AI models.
+          </p>
+        </div>
 
         {error && <div className={authStyles.error}>{error}</div>}
 
@@ -45,7 +48,7 @@ export default function Regestration() {
                 id="name"
                 className={authStyles.input}
                 type="text"
-                placeholder="muktar sayyad"
+                placeholder="Your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -56,7 +59,7 @@ export default function Regestration() {
 
           <div className={authStyles.formGroup}>
             <label className={authStyles.label} htmlFor="email">
-              Email
+              Email address
             </label>
             <div className={authStyles.inputWrapper}>
               <span className={authStyles.inputIcon}>@</span>
@@ -64,7 +67,7 @@ export default function Regestration() {
                 id="email"
                 className={authStyles.input}
                 type="email"
-                placeholder="you@space.com"
+                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -102,7 +105,7 @@ export default function Regestration() {
         </p>
 
         <p className={authStyles.helper}>
-          Onboarding takes less than a minute. We only store your sample data locally.
+          Your data is stored locally for demo purposes.
         </p>
       </section>
     </div>

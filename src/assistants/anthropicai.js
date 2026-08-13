@@ -1,23 +1,39 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic({
-  apiKey: import.meta.env.VITE_ANTHROPIC_AI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+const getAnthropicClient = () => {
+  const apiKey = typeof import.meta !== "undefined" ? import.meta.env?.VITE_ANTHROPIC_AI_API_KEY : undefined;
+
+  if (!apiKey) {
+    return null;
+  }
+
+  return new Anthropic({
+    apiKey,
+    dangerouslyAllowBrowser: true,
+  });
+};
 
 export class Assistant {
   #client;
   #model;
 
-  constructor(model = "claude-3-5-haiku-latest", client = anthropic) {
+  constructor(model = "claude-3-5-haiku-latest", client = getAnthropicClient()) {
     this.#client = client;
     this.#model = model;
   }
 
+  #ensureClient() {
+    if (!this.#client) {
+      throw new Error("Anthropic is not configured. Add VITE_ANTHROPIC_AI_API_KEY to your .env file.");
+    }
+    return this.#client;
+  }
+
   async chat(content, history) {
+    const client = this.#ensureClient();
     try {
       const { system, filteredHistory } = this.#extractSystem(history);
-      const result = await this.#client.messages.create({
+      const result = await client.messages.create({
         model: this.#model,
         system: system || undefined,
         messages: [...filteredHistory, this.#buildUserMessage(content)],
@@ -31,9 +47,10 @@ export class Assistant {
   }
 
   async *chatStream(content, history) {
+    const client = this.#ensureClient();
     try {
       const { system, filteredHistory } = this.#extractSystem(history);
-      const result = await this.#client.messages.create({
+      const result = await client.messages.create({
         model: this.#model,
         system: system || undefined,
         messages: [...filteredHistory, this.#buildUserMessage(content)],

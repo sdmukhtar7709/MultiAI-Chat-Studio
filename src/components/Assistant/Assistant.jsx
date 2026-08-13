@@ -49,46 +49,42 @@ export function Assistant({ onAssistantChange }) {
           <option value="chatminds:gpt-4o-mini">ChatMinds</option>
         </optgroup>
 
-        {/* Hidden temporarily: other providers/models */}
-        {false && (
-          <>
-            <optgroup label="Open AI">
-              <option value="openai:gpt-4o-mini">GPT-4o mini</option>
-              <option value="openai:chatgpt-4o-latest">ChatGPT-4o</option>
-            </optgroup>
+        <optgroup label="Open AI">
+          <option value="openai:gpt-4o-mini">GPT-4o mini</option>
+          <option value="openai:chatgpt-4o-latest">ChatGPT-4o</option>
+        </optgroup>
 
-            <optgroup label="Google AI">
-              <option value="googleai:gemini-2.0-flash">Gemini 2.0 Flash</option>
-              <option value="googleai:gemini-2.0-flash-lite">
-                Gemini 2.0 Flash-Lite
-              </option>
-            </optgroup>
+        <optgroup label="Google AI">
+          <option value="googleai:gemini-2.0-flash">Gemini 2.0 Flash</option>
+          <option value="googleai:gemini-2.5-flash">Gemini 2.5 Flash</option>
+          <option value="googleai:gemini-2.0-flash-lite">
+            Gemini 2.0 Flash-Lite
+          </option>
+        </optgroup>
 
-            <optgroup label="DeepSeek AI">
-              <option value="deepseekai:deepseek-chat">DeepSeek-V3</option>
-            </optgroup>
+        <optgroup label="DeepSeek AI">
+          <option value="deepseekai:deepseek-chat">DeepSeek-V3</option>
+        </optgroup>
 
-            <optgroup label="Groq">
-              <option value="groq:meta-llama/llama-4-maverick-17b-128e-instruct">
-                Llama 4 Maverick 17B
-              </option>
-            </optgroup>
+        <optgroup label="Groq">
+          <option value="groq:meta-llama/llama-4-maverick-17b-128e-instruct">
+            Llama 4 Maverick 17B
+          </option>
+        </optgroup>
 
-            <optgroup label="Anthropic AI">
-              <option value="anthropicai:claude-3-5-haiku-latest">
-                Claude 3.5 Haiku
-              </option>
-            </optgroup>
+        <optgroup label="Anthropic AI">
+          <option value="anthropicai:claude-3-5-haiku-latest">
+            Claude 3.5 Haiku
+          </option>
+        </optgroup>
 
-            <optgroup label="X AI">
-              <option value="xai:grok-3-mini-latest">Grok 3 Mini</option>
-            </optgroup>
+        <optgroup label="X AI">
+          <option value="xai:grok-3-mini-latest">Grok 3 Mini</option>
+        </optgroup>
 
-            <optgroup label="LM Studio (Local)">
-              <option value="lmstudio:qwen2.5-sex">Qwen 2.5 (Local)</option>
-            </optgroup>
-          </>
-        )}
+        <optgroup label="LM Studio (Local)">
+          <option value="lmstudio:qwen2.5-sex">Qwen 2.5 (Local)</option>
+        </optgroup>
       </select>
     </div>
   );

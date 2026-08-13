@@ -1,22 +1,38 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+const getOpenAIClient = () => {
+  const apiKey = typeof import.meta !== "undefined" ? import.meta.env?.VITE_OPEN_AI_API_KEY : undefined;
+
+  if (!apiKey) {
+    return null;
+  }
+
+  return new OpenAI({
+    apiKey,
+    dangerouslyAllowBrowser: true,
+  });
+};
 
 export class Assistant {
   #client;
   #model;
 
-  constructor(model = "gpt-4o-mini", client = openai) {
+  constructor(model = "gpt-4o-mini", client = getOpenAIClient()) {
     this.#client = client;
     this.#model = model;
   }
 
+  #ensureClient() {
+    if (!this.#client) {
+      throw new Error("OpenAI is not configured. Add VITE_OPEN_AI_API_KEY to your .env file.");
+    }
+    return this.#client;
+  }
+
   async chat(content, history) {
+    const client = this.#ensureClient();
     try {
-      const result = await this.#client.chat.completions.create({
+      const result = await client.chat.completions.create({
         model: this.#model,
         messages: [...history, this.#buildUserMessage(content)],
       });
@@ -28,8 +44,9 @@ export class Assistant {
   }
 
   async *chatStream(content, history) {
+    const client = this.#ensureClient();
     try {
-      const result = await this.#client.chat.completions.create({
+      const result = await client.chat.completions.create({
         model: this.#model,
         messages: [...history, this.#buildUserMessage(content)],
         stream: true,

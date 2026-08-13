@@ -1,10 +1,17 @@
 import { GoogleGenAI } from "@google/genai";
 
-const googleai = new GoogleGenAI({
-  apiKey: import.meta.env.VITE_GOOGLE_AI_API_KEY,
-});
+const getGoogleAIClient = () => {
+  const apiKey = typeof import.meta !== "undefined" ? import.meta.env?.VITE_GOOGLE_AI_API_KEY : undefined;
+
+  if (!apiKey) {
+    return null;
+  }
+
+  return new GoogleGenAI({ apiKey });
+};
 
 export class Assistant {
+  #googleai;
   #modelName;
   #history = [];
   #systemInstruction = "";
@@ -12,6 +19,14 @@ export class Assistant {
 
   constructor(model = "gemini-2.5-flash") {
     this.#modelName = model;
+    this.#googleai = getGoogleAIClient();
+  }
+
+  #ensureClient() {
+    if (!this.#googleai) {
+      throw new Error("Google AI is not configured. Add VITE_GOOGLE_AI_API_KEY to your .env file.");
+    }
+    return this.#googleai;
   }
 
   createChat(history, systemInstruction = "") {
@@ -25,11 +40,12 @@ export class Assistant {
   }
 
   async chat(content) {
+    const client = this.#ensureClient();
     const userMessage = this.#composeMessage(content);
     const contents = this.#buildContents(userMessage);
 
     try {
-      const result = await googleai.models.generateContent({
+      const result = await client.models.generateContent({
         model: this.#modelName,
         contents,
       });
@@ -43,12 +59,13 @@ export class Assistant {
   }
 
   async *chatStream(content) {
+    const client = this.#ensureClient();
     const userMessage = this.#composeMessage(content);
     const contents = this.#buildContents(userMessage);
     let combinedText = "";
 
     try {
-      const result = await googleai.models.generateContentStream({
+      const result = await client.models.generateContentStream({
         model: this.#modelName,
         contents,
       });

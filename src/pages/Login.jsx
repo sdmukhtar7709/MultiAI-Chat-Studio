@@ -22,21 +22,24 @@ export default function Login() {
 
   return (
     <div className={authStyles.container}>
-      <span className={authStyles.glow} />
-      <span className={authStyles.glow} />
-
       <section className={authStyles.card}>
-        <h2 className={authStyles.title}>Sign in to Your Account</h2>
-        <p className={authStyles.subtitle}>
-          Enter your login details to access your dashboard.
-        </p>
+        <div className={authStyles.header}>
+          <div className={authStyles.brand}>
+            <img className={authStyles.logo} src="/chatmindd.png" alt="ChatMinds" />
+            <span className={authStyles.brandText}>ChatMinds</span>
+          </div>
+          <h2 className={authStyles.title}>Sign in</h2>
+          <p className={authStyles.subtitle}>
+            Enter your details to access your workspace.
+          </p>
+        </div>
 
         {error && <div className={authStyles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={authStyles.form}>
           <div className={authStyles.formGroup}>
             <label className={authStyles.label} htmlFor="email">
-              Email Address
+              Email address
             </label>
             <div className={authStyles.inputWrapper}>
               <span className={authStyles.inputIcon}>@</span>
@@ -83,17 +86,14 @@ export default function Login() {
           </div>
 
           <button className={authStyles.primary} type="submit">
-            Login
+            Sign in
           </button>
         </form>
 
         <p className={authStyles.secondaryLink}>
-          Don&apos;t have an account? <Link to="/Regestration">Register</Link>
+          Don&apos;t have an account? <Link to="/Regestration">Create one</Link>
         </p>
 
-        <p className={authStyles.helper}>
-          Demo mode: Your credentials are saved locally and can be reset anytime.
-        </p>
       </section>
     </div>
   );
